@@ -1,5 +1,6 @@
 package ru.touchin.pagination.controllers
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -8,10 +9,14 @@ import ru.touchin.pagination.exceptions.BaseException
 import ru.touchin.pagination.objects.BaseResponse
 import ru.touchin.pagination.objects.MessageCreateRequest
 import ru.touchin.pagination.objects.MessageListingRequest
+import ru.touchin.pagination.services.MessageServiceImpl
 import javax.validation.Valid
 
 @RestController
 class MessageController : ExceptionHandlingController() {
+
+    @Autowired
+    lateinit var messageService: MessageServiceImpl
 
     @PostMapping("/message/create")
     fun messageCreate(@Valid @RequestBody messageCreateRequest: MessageCreateRequest): ResponseEntity<BaseResponse> {
@@ -19,7 +24,14 @@ class MessageController : ExceptionHandlingController() {
             return invalidResponse()
         }
 
-        return ResponseEntity.ok(BaseResponse(true))
+        val message = messageCreateRequest.message
+
+        var result = false
+        if (message != null) {
+            result = messageService.createMessage(message)
+        }
+
+        return ResponseEntity.ok(BaseResponse(result))
     }
 
     @PostMapping("/message/listing")
@@ -27,6 +39,7 @@ class MessageController : ExceptionHandlingController() {
         if (!messageListingRequest.isValid()) {
             return invalidResponse()
         }
+
 
         return ResponseEntity.ok(BaseResponse(arrayListOf("test1", "test2")))
     }

@@ -2,7 +2,7 @@ package ru.touchin.pagination.objects
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class MessageCreateRequest: Request {
+class MessageCreateRequest : Request {
 
     @JsonProperty("author")
     val author: String? = null
@@ -21,4 +21,13 @@ class MessageCreateRequest: Request {
 
         return true
     }
+
+    val message: Message?
+        get() {
+            if (!isValid()) {
+                return null
+            }
+
+            return Message(author!!, text!!)
+        }
 }

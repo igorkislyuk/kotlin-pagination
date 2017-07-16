@@ -9,14 +9,14 @@ import ru.touchin.pagination.exceptions.BaseException
 import ru.touchin.pagination.objects.BaseResponse
 import ru.touchin.pagination.objects.MessageCreateRequest
 import ru.touchin.pagination.objects.MessageListingRequest
-import ru.touchin.pagination.services.MessageServiceImpl
+import ru.touchin.pagination.services.MessageService
 import javax.validation.Valid
 
 @RestController
 class MessageController : ExceptionHandlingController() {
 
     @Autowired
-    lateinit var messageService: MessageServiceImpl
+    lateinit var messageService: MessageService
 
     @PostMapping("/message/create")
     fun messageCreate(@Valid @RequestBody messageCreateRequest: MessageCreateRequest): ResponseEntity<BaseResponse> {

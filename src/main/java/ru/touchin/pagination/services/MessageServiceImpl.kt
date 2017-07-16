@@ -1,23 +1,20 @@
 package ru.touchin.pagination.services
 
+import org.hibernate.Session
 import org.hibernate.SessionFactory
-import org.hibernate.criterion.Restrictions
-import org.springframework.beans.factory.annotation.Autowired
 import ru.touchin.pagination.objects.Message
-import javax.persistence.EntityManagerFactory
+import javax.persistence.Persistence
 
 class MessageServiceImpl : MessageService {
-
-    @Autowired
-    lateinit var entityManagerFactory: EntityManagerFactory
-
-    val sessionFactory: SessionFactory
-        get() {
-            if (entityManagerFactory.unwrap(SessionFactory::class.java) == null) {
-                throw NullPointerException("factory is not a hibernate factory")
-            }
-            return entityManagerFactory.unwrap(SessionFactory::class.java)
-        }
+//
+//    val sessionFactory: SessionFactory
+//        get() {
+//            if (entityManagerFactory.unwrap(SessionFactory::class.java) == null) {
+//                throw NullPointerException("factory is not a hibernate factory")
+//            }
+//
+//            return entityManagerFactory.unwrap(SessionFactory::class.java)
+//        }
 
     override fun messageWith(identifier: String?): Message? {
 
@@ -25,8 +22,24 @@ class MessageServiceImpl : MessageService {
     }
 
     override fun createMessage(message: Message): Boolean {
-        sessionFactory.currentSession.save(message)
+        try {
 
+        val sessionFactory = Persistence.createEntityManagerFactory("ru.touchin.persistence")
+        val entityManager = sessionFactory.createEntityManager()
+
+        entityManager.transaction.begin()
+
+        entityManager.persist(message)
+
+        entityManager.transaction.commit()
+
+        entityManager.close()
+
+        }
+        catch (exception: Exception) {
+
+            println("O my fucking java")
+        }
         return true
     }
 }

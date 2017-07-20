@@ -1,4 +1,4 @@
-package ru.touchin.pagination.objects
+package ru.touchin.pagination.entity
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import ru.touchin.pagination.exceptions.BaseException

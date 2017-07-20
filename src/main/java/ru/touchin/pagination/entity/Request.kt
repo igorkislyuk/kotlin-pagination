@@ -1,4 +1,4 @@
-package ru.touchin.pagination.objects
+package ru.touchin.pagination.entity
 
 interface Request {
 

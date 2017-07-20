@@ -2,17 +2,18 @@ package ru.touchin.pagination.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
 import ru.touchin.pagination.exceptions.BaseException
-import ru.touchin.pagination.objects.BaseResponse
-import ru.touchin.pagination.objects.MessageCreateRequest
-import ru.touchin.pagination.objects.MessageListingRequest
+import ru.touchin.pagination.entity.BaseResponse
+import ru.touchin.pagination.entity.Message
+import ru.touchin.pagination.entity.MessageCreateRequest
+import ru.touchin.pagination.entity.MessageListingRequest
 import ru.touchin.pagination.services.MessageService
 import javax.validation.Valid
 
-@RestController
+@Controller
 class MessageController : ExceptionHandlingController() {
 
     @Autowired
@@ -26,12 +27,13 @@ class MessageController : ExceptionHandlingController() {
 
         val message = messageCreateRequest.message
 
-        var result = false
+//        val resultMessage: Message
+
         if (message != null) {
-            result = messageService.createMessage(message)
+            messageService.addMessage(message)
         }
 
-        return ResponseEntity.ok(BaseResponse(result))
+        return ResponseEntity.ok(BaseResponse(true))
     }
 
     @PostMapping("/message/listing")

@@ -1,6 +1,8 @@
-package ru.touchin.pagination.objects
+package ru.touchin.pagination.entity
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.sql.Date
+import java.util.*
 
 class MessageCreateRequest : Request {
 
@@ -28,6 +30,6 @@ class MessageCreateRequest : Request {
                 return null
             }
 
-            return Message(author!!, text!!)
+            return Message(author!!, text!!, Date(Calendar.getInstance().time.time))
         }
 }

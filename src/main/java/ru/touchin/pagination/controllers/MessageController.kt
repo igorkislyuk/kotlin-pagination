@@ -40,16 +40,26 @@ class MessageController : ExceptionHandlingController() {
             return invalidResponse()
         }
 
-        if (messageListingRequest.listingType == MessageListingType.limitOffset) {
-            val (limit, offset) = messageListingRequest.limitOffset
-            val messages = messageService.messagesFromTop(limit = limit, offset = offset)
-            return ResponseEntity.ok(BaseResponse(messages))
-        } else if (messageListingRequest.listingType == MessageListingType.sinceTillId) {
-            val (sinceId, tillId) = messageListingRequest.sinceTillIds
-            val messages = messageService.messages(sinceId, tillId)
-            return ResponseEntity.ok(BaseResponse(messages))
-        } else {
-            return invalidResponse()
+        when {
+            messageListingRequest.listingType == MessageListingType.limitOffset -> {
+                val (limit, offset) = messageListingRequest.limitOffset
+                return ResponseEntity.ok(BaseResponse(messageService.messagesFromTop(limit = limit, offset = offset)))
+            }
+            messageListingRequest.listingType == MessageListingType.sinceTillId -> {
+                val (sinceId, tillId) = messageListingRequest.sinceTillIds
+                return ResponseEntity.ok(BaseResponse(messageService.messages(sinceId, tillId)))
+            }
+            messageListingRequest.listingType == MessageListingType.limitSince -> {
+                val (limit, sinceId) = messageListingRequest.limitSince
+                val messages = messageService.messagesSince(sinceId, limit)
+                return ResponseEntity.ok(BaseResponse(messages))
+            }
+            messageListingRequest.listingType == MessageListingType.limitTill -> {
+                val (limit, tillId) = messageListingRequest.limitTill
+                val messages = messageService.messagesTill(tillId, limit)
+                return ResponseEntity.ok(BaseResponse(messages))
+            }
+            else -> return invalidResponse()
         }
     }
 

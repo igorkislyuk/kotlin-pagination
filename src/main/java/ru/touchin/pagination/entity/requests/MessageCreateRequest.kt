@@ -34,7 +34,7 @@ class MessageCreateRequest : Request {
             val message = Message()
             message.authorName = author!!
             message.text = text!!
-//            message.date = java.sql.Date(Calendar.getInstance().timeInMillis)
+            message.date = java.util.Date(Calendar.getInstance().timeInMillis)
             return message
         }
 }

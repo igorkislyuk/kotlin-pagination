@@ -18,6 +18,9 @@ open class MessageServiceImpl : MessageService {
 
     override fun messagesFromTop(limit: Int, offset: Int): List<Message> = messageDao.messagesFromTop(limit, offset)
 
-    override fun messages(sinceId: String, tillId: String, ascending: Boolean): List<Message> = messageDao.messages(sinceId, tillId, ascending)
+    override fun messages(sinceId: String, tillId: String): List<Message> = messageDao.messages(sinceId, tillId)
 
+    override fun messagesSince(id: String, limit: Int): List<Message> = messageDao.messagesSince(id, limit)
+
+    override fun messagesTill(id: String, limit: Int): List<Message> = messageDao.messagesTill(id, limit)
 }

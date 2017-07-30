@@ -66,4 +66,23 @@ class MessageListingRequest : Request {
 
             return Pair(sinceID!!, tillID!!)
         }
+
+    val limitSince: Pair<Int, String>
+        get() {
+            if (listingType != MessageListingType.limitSince) {
+                throw InvalidRequestException("Check first listing type")
+            }
+
+            return Pair(limit!!, sinceID!!)
+        }
+
+    val limitTill: Pair<Int, String>
+        get() {
+            if (listingType != MessageListingType.limitTill) {
+                throw InvalidRequestException("Check first listing type")
+            }
+
+            return Pair(limit!!, tillID!!)
+        }
+
 }

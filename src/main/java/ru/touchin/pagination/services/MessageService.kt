@@ -8,5 +8,9 @@ interface MessageService {
 
     fun messagesFromTop(limit: Int, offset: Int): List<Message>
 
-    fun messages(sinceId: String, tillId: String, ascending: Boolean = false): List<Message>
+    fun messages(sinceId: String, tillId: String): List<Message>
+
+    fun messagesSince(id: String, limit: Int): List<Message>
+
+    fun messagesTill(id: String, limit: Int): List<Message>
 }

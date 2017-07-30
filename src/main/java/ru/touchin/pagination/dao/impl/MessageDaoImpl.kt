@@ -28,13 +28,33 @@ open class MessageDaoImpl : MessageDao {
                 .filterIsInstance(Message::class.java)
     }
 
-    override fun messages(sinceId: String, tillId: String, ascending: Boolean): List<Message> {
+    override fun messages(sinceId: String, tillId: String): List<Message> {
         val sinceDate = getMessage(sinceId)?.date ?: return emptyList()
         val tillDate = getMessage(tillId)?.date ?: return emptyList()
 
         return sessionFactory.currentSession.createCriteria(Message::class.java)
                 .addOrder(Order.desc("date"))
                 .add(Restrictions.between("date", sinceDate, tillDate))
+                .list()
+                .filterIsInstance(Message::class.java)
+    }
+
+    override fun messagesSince(id: String, limit: Int): List<Message> {
+        val sinceDate = getMessage(id)?.date ?: return emptyList()
+
+        return sessionFactory.currentSession.createCriteria(Message::class.java)
+                .addOrder(Order.desc("date"))
+                .add(Restrictions.ge("date", sinceDate))
+                .list()
+                .filterIsInstance(Message::class.java)
+    }
+
+    override fun messagesTill(id: String, limit: Int): List<Message> {
+        val tillDate = getMessage(id)?.date ?: return emptyList()
+
+        return sessionFactory.currentSession.createCriteria(Message::class.java)
+                .addOrder(Order.desc("date"))
+                .add(Restrictions.le("date", tillDate))
                 .list()
                 .filterIsInstance(Message::class.java)
     }

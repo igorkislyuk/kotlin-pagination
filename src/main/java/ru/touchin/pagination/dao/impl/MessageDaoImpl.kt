@@ -19,12 +19,6 @@ open class MessageDaoImpl : MessageDao {
         return message
     }
 
-    fun getMessage(identifier: String): Message? {
-        return sessionFactory.currentSession.createCriteria(Message::class.java)
-                .add(Restrictions.eq("id", identifier))
-                .uniqueResult() as? Message ?: return null
-    }
-
     override fun messagesFromTop(limit: Int, offset: Int): List<Message> {
         return sessionFactory.currentSession.createCriteria(Message::class.java)
                 .addOrder(Order.desc("date"))
@@ -32,10 +26,26 @@ open class MessageDaoImpl : MessageDao {
                 .setMaxResults(limit)
                 .list()
                 .filterIsInstance(Message::class.java)
-//        return emptyList()
     }
 
-    override fun messages(sinceId: String, tillId: String, ascending: Boolean): Array<Message>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun messages(sinceId: String, tillId: String, ascending: Boolean): List<Message> {
+        val sinceDate = getMessage(sinceId)?.date ?: return emptyList()
+        val tillDate = getMessage(tillId)?.date ?: return emptyList()
+
+        return sessionFactory.currentSession.createCriteria(Message::class.java)
+                .addOrder(Order.desc("date"))
+                .add(Restrictions.between("date", sinceDate, tillDate))
+                .list()
+                .filterIsInstance(Message::class.java)
     }
+
+    // Private
+
+    private fun getMessage(identifier: String): Message? {
+        return sessionFactory.currentSession.createCriteria(Message::class.java)
+                .addOrder(Order.desc("date"))
+                .add(Restrictions.eq("id", identifier))
+                .uniqueResult() as? Message ?: return null
+    }
+
 }

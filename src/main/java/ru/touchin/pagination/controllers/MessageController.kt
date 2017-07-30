@@ -44,6 +44,10 @@ class MessageController : ExceptionHandlingController() {
             val (limit, offset) = messageListingRequest.limitOffset
             val messages = messageService.messagesFromTop(limit = limit, offset = offset)
             return ResponseEntity.ok(BaseResponse(messages))
+        } else if (messageListingRequest.listingType == MessageListingType.sinceTillId) {
+            val (sinceId, tillId) = messageListingRequest.sinceTillIds
+            val messages = messageService.messages(sinceId, tillId)
+            return ResponseEntity.ok(BaseResponse(messages))
         } else {
             return invalidResponse()
         }

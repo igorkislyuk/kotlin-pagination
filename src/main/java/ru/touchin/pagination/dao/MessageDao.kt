@@ -8,5 +8,5 @@ interface MessageDao {
 
     fun messagesFromTop(limit: Int, offset: Int): List<Message>
 
-    fun messages(sinceId: String, tillId: String, ascending: Boolean): Array<Message>?
+    fun messages(sinceId: String, tillId: String, ascending: Boolean): List<Message>
 }

@@ -1,8 +1,8 @@
 package ru.touchin.pagination.entity.models
 
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonValue
 import org.hibernate.annotations.GenericGenerator
-import org.hibernate.validator.constraints.NotBlank
-import java.sql.Date
 import javax.persistence.*
 
 @Entity
@@ -18,8 +18,10 @@ class Message {
     @Column(name = "text")
     lateinit var text: String
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssZ")
     @Column(name = "date")
-    lateinit var date: Date
+    @Temporal(TemporalType.TIMESTAMP)
+    lateinit var date: java.util.Date
 
     @Column(name = "author")
     lateinit var authorName: String

@@ -1,4 +1,4 @@
-package ru.touchin.pagination.entity
+package ru.touchin.pagination.entity.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

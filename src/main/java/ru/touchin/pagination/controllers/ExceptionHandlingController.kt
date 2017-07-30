@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import ru.touchin.pagination.exceptions.BaseException
-import ru.touchin.pagination.entity.BaseResponse
+import ru.touchin.pagination.entity.responses.BaseResponse
 
 @RestController
 open class ExceptionHandlingController {

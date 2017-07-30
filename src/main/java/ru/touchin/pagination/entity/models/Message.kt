@@ -1,4 +1,4 @@
-package ru.touchin.pagination.entity
+package ru.touchin.pagination.entity.models
 
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.validator.constraints.NotBlank
@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "messages", schema = "public")
-class Message(author: String, text: String, date: Date) {
+class Message {
 
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
@@ -16,11 +16,11 @@ class Message(author: String, text: String, date: Date) {
     lateinit var id: String
 
     @Column(name = "text")
-    var text = text
+    lateinit var text: String
 
     @Column(name = "date")
-    var date = date
+    lateinit var date: Date
 
     @Column(name = "author")
-    var authorName = author
+    lateinit var authorName: String
 }

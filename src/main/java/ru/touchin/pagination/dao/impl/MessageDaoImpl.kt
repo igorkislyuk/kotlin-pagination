@@ -45,6 +45,7 @@ open class MessageDaoImpl : MessageDao {
         return sessionFactory.currentSession.createCriteria(Message::class.java)
                 .addOrder(Order.desc("date"))
                 .add(Restrictions.ge("date", sinceDate))
+                .setMaxResults(limit)
                 .list()
                 .filterIsInstance(Message::class.java)
     }
@@ -55,6 +56,7 @@ open class MessageDaoImpl : MessageDao {
         return sessionFactory.currentSession.createCriteria(Message::class.java)
                 .addOrder(Order.desc("date"))
                 .add(Restrictions.le("date", tillDate))
+                .setMaxResults(limit)
                 .list()
                 .filterIsInstance(Message::class.java)
     }
